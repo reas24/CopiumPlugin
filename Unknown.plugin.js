@@ -2,7 +2,7 @@
  * @name UnknownPlugin
  * @author reas24
  * @authorId 220639207562018816
- * @version 1.0.1
+ * @version 1.0.2
  * @description Hidden Clown
  * @source https://github.com/reas24/CopiumPlugins/
  * @updateUrl https://raw.githubusercontent.com/reas24/CopiumPlugin/main/Unknown.plugin.js
@@ -31,7 +31,7 @@
 module.exports = (() => {
   const config = {
     info: {
-      name: "AntiMute",
+      name: "TipaNeSlishu",
       authors: [
         {
           name: "reas24",
@@ -39,8 +39,8 @@ module.exports = (() => {
           github_username: "reas24",
         },
       ],
-      version: "1.0.0",
-      description: "ez hackerman",
+      version: "1.0.1",
+      description: "Hidden Clown",
       github: "https://github.com/reas24/CopiumPlugin",
       github_raw:
         "https://raw.githubusercontent.com/reas24/CopiumPlugin/main/Unknown.plugin.js",
@@ -56,10 +56,14 @@ module.exports = (() => {
         title: "v1.0.1",
         items: ["DiscordPidor fix", "removed api"],
       },
+ {
+        title: "v1.0.2",
+        items: ["DiscordThemes support(taking files directly from discord IDs)", "New prompt calls"],
+      },
     ],
     main: "unknown.plugin.js",
   };
-    return !window.hasOwnProperty("ZeresPluginLibrary")
+   return !window.hasOwnProperty("ZeresPluginLibrary")
   ? class {
       load() {
         BdApi.showConfirmationModal(
