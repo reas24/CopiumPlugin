@@ -2,7 +2,7 @@
  * @name UnknownPlugin
  * @author reas24
  * @authorId 220639207562018816
- * @version 1.0.3
+ * @version 1.1.0
  * @description Hidden Clown
  * @source https://github.com/reas24/CopiumPlugins/
  * @updateUrl https://raw.githubusercontent.com/reas24/CopiumPlugin/main/Unknown.plugin.js
