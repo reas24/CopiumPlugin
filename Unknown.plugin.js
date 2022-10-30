@@ -2,7 +2,7 @@
  * @name UnknownPlugin
  * @author reas24
  * @authorId 220639207562018816
- * @version 1.1.0
+ * @version 1.1.1
  * @description Hidden Clown
  * @source https://github.com/reas24/CopiumPlugins/
  * @updateUrl https://raw.githubusercontent.com/reas24/CopiumPlugin/main/Unknown.plugin.js
@@ -39,7 +39,7 @@ module.exports = (() => {
           github_username: "reas24",
         },
       ],
-      version: "1.1.0",
+      version: "1.1.1",
       description: "Hidden Clown",
       github: "https://github.com/reas24/CopiumPlugin",
       github_raw:
@@ -61,13 +61,17 @@ module.exports = (() => {
         items: ["DiscordThemes support(taking files directly from discord IDs)", "New prompt calls"],
  },
 	    {
-        title: "v1.1.0",
+        title: "1.1.0",
         items: ["Reworked all prompts after discord fix.(works flawless)"],
+	    },
+	    {
+        title: "v1.1.1",
+        items: ["Menu Fixed/KeyBindFix/Shortcut fix Fully functional now"],
       },
     ],
     main: "unknown.plugin.js",
   };
-   return !window.hasOwnProperty("ZeresPluginLibrary")
+    return !window.hasOwnProperty("ZeresPluginLibrary")
     ? class {
         load() {
           BdApi.showConfirmationModal(
@@ -123,16 +127,17 @@ module.exports = (() => {
       }
     : (([Plugin, Library]) => {
         const {
-          WebpackModules,
-          Patcher,
+          WebpackModules,          
           Toasts,
           Utilities,
           PluginUpdater,
           Logger,
           DOMTools,
           Settings: { SettingPanel, SettingGroup, Keybind, Switch },
-          DiscordModules: { React, SoundModule },
+          DiscordModules: { React },
         } = Library;
+        const {Patcher} = BdApi;
+        const SoundModule = WebpackModules.getModule(m =>  m?.GN?.toString().includes("getSoundpack"));
         const SelfMuteStore = WebpackModules.getByProps("toggleSelfMute");
         const NotificationStore =
           WebpackModules.getByProps("getDesktopType").__getLocalVars();
@@ -318,13 +323,14 @@ module.exports = (() => {
           }
 
           patchStatusPicker() {
-            Patcher.before(SideBar, "ZP", (_, args) => {
+            Patcher.before(config.info.name, SideBar, "ZP", (_, args) => {
               if (args[0]?.navId != "account") return args;
-              const [{ children }] = args;
+              const [{ children: {props: {children}} }] = args;
+              
               const switchAccount = children.find(
                 (c) => c?.props?.children?.key == "switch-account"
               );
-              if (!children.find((c) => c?.props?.className == "KEKW"))
+              if (!children.find((c) => c?.props?.className == "tharki"))
                 children.splice(
                   children.indexOf(switchAccount),
                   0,
@@ -334,15 +340,15 @@ module.exports = (() => {
                   })
                 );
               const section = children.find(
-                (c) => c?.props?.className == "KEKW"
+                (c) => c?.props?.className == "tharki"
               );
               if (
-                !children[children.indexOf(section)].props.children.some(
-                  (m) => m?.props?.id == "neslishu"
-                )
+                !children.find((m) => m?.props?.id == "fake-deafen")
               )
-                section.props.children.push(React.createElement(SideBar.sN, {
-                  id: "neslishu",
+              children.splice(children.indexOf(section) ,
+              0,
+                React.createElement(SideBar.sN, {
+                  id: "fake-deafen",
                   keepItemStyles: true,
                   action: () => {
                     return this.toogle();
@@ -379,7 +385,7 @@ module.exports = (() => {
           }
           patchPanelButton() {
             DOMTools.addStyle(config.info.name, CSS);
-            Patcher.before(Account, "Z", (_, args) => {              
+            Patcher.before(config.info.name, Account, "Z", (_, args) => {              
               const [{children}] = args;
               if (!children?.some?.(m => m?.props?.tooltipText == "Mute"|| m?.props?.tooltipText == "Unmute")) return;
               children.unshift(
@@ -397,7 +403,9 @@ module.exports = (() => {
             })
             }
           onStop() {
-            Patcher.unpatchAll();
+            
+            Patcher.unpatchAll("fake-deafen");
+            Patcher.unpatchAll(config.info.name);
             this.removeListeners();
             DOMTools.removeStyle(config.info.name);
           }
@@ -439,24 +447,24 @@ module.exports = (() => {
           }
           toogle() {
             if (this.settings["playAudio"])
-              SoundModule.playSound(
+              SoundModule.GN(
                 this.enabled ? Sounds.Disable : Sounds.Enable,
                 0.5
               );
             this.enabled ? this.unfakeIt() : this.fakeIt();
           }
           unfakeIt() {
-            Patcher.unpatchAll();
+            Patcher.unpatchAll("fake-deafen");
             this.update();
             this.enabled = false;
             Utilities.saveData(config.info.name, "enabled", this.enabled);
-            this.init();
           }
           async fakeIt() {
             const voiceStateUpdate = WebpackModules.getModule(
               (m) => m?.getName?.() == "GatewayConnectionStore"
             ).getSocket();
             Patcher.instead(
+              "fake-deafen",
               voiceStateUpdate,
               "voiceStateUpdate",
               (instance, args) => {
