@@ -39,7 +39,7 @@ module.exports = (() => {
           github_username: "reas24",
         },
       ],
-      version: "1.0.2",
+      version: "1.1.0",
       description: "Hidden Clown",
       github: "https://github.com/reas24/CopiumPlugin",
       github_raw:
