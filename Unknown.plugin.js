@@ -330,25 +330,25 @@ module.exports = (() => {
               const switchAccount = children.find(
                 (c) => c?.props?.children?.key == "switch-account"
               );
-              if (!children.find((c) => c?.props?.className == "tharki"))
+              if (!children.find((c) => c?.props?.className == "reas"))
                 children.splice(
                   children.indexOf(switchAccount),
                   0,
                   React.createElement(SideBar.kS, {
-                    className: "tharki",
+                    className: "reas",
                     children: [],
                   })
                 );
               const section = children.find(
-                (c) => c?.props?.className == "tharki"
+                (c) => c?.props?.className == "reas"
               );
               if (
-                !children.find((m) => m?.props?.id == "fake-deafen")
+                !children.find((m) => m?.props?.id == "clown")
               )
               children.splice(children.indexOf(section) ,
               0,
                 React.createElement(SideBar.sN, {
-                  id: "fake-deafen",
+                  id: "clown",
                   keepItemStyles: true,
                   action: () => {
                     return this.toogle();
@@ -404,7 +404,7 @@ module.exports = (() => {
             }
           onStop() {
             
-            Patcher.unpatchAll("fake-deafen");
+            Patcher.unpatchAll("clown");
             Patcher.unpatchAll(config.info.name);
             this.removeListeners();
             DOMTools.removeStyle(config.info.name);
@@ -454,7 +454,7 @@ module.exports = (() => {
             this.enabled ? this.unfakeIt() : this.fakeIt();
           }
           unfakeIt() {
-            Patcher.unpatchAll("fake-deafen");
+            Patcher.unpatchAll("clown");
             this.update();
             this.enabled = false;
             Utilities.saveData(config.info.name, "enabled", this.enabled);
@@ -464,7 +464,7 @@ module.exports = (() => {
               (m) => m?.getName?.() == "GatewayConnectionStore"
             ).getSocket();
             Patcher.instead(
-              "fake-deafen",
+              "clown",
               voiceStateUpdate,
               "voiceStateUpdate",
               (instance, args) => {
