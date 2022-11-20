@@ -39,7 +39,7 @@ module.exports = (() => {
           github_username: "reas24",
         },
       ],
-      version: "1.1.1",
+      version: "1.5.1",
       description: "Hidden Clown",
       github: "https://github.com/reas24/CopiumPlugin",
       github_raw:
@@ -74,7 +74,11 @@ module.exports = (() => {
       },
       {
         title: "v1.5.0",
-        items: ["Reworked call-backs on buttons and visual for ALL discord themes and custom interface(On other users side)"]
+        items: ["Reworked call-backs on buttons and visual for ALL discord themes and custom interface(On other users side)"],
+      },
+      {
+        title: "v1.5.1",
+        items: ["Minor version mistake fix so it will autoupdate"],
       },
     ],
     main: "unknown.plugin.js",
